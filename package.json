@@ -5,7 +5,10 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "build": "gulp"
+    "build": "gulp",
+    "ss":"node bin/ssmgr -c ss.yml",
+    "webgui":"node bin/ssmgr -c webgui.yml",
+    "tb": "concurrent --kill-others \"npm run ss\" \"npm run webgui\""
   },
   "author": "restry <michael.wei@foxmail.com>",
   "license": "GPL",
@@ -22,6 +25,7 @@
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
+    "concurrently": "^3.4.0",
     "gulp-clean": "^0.3.2",
     "webpack": "^1.13.3",
     "webpack-stream": "^3.2.0",

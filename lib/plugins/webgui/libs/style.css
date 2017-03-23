@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 @font-face {
     font-family: 'Material Icons';
     font-style: normal;
@@ -35,7 +33,6 @@
     /* Support for IE. */
     font-feature-settings: 'liga';
 }
->>>>>>> cfdce5646d0719a155b39f35be7665be03923355
 
 .animate-show {
   line-height: 20px;
