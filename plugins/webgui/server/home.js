@@ -61,7 +61,7 @@ exports.signup = (req, res) => {
             time: Date.now(),
             limit: newUserAccount.limit || 8,
             flow: (newUserAccount.flow ? newUserAccount.flow : 350) * 1000000,
-            autoRemove: 1,
+            autoRemove: 0,
           });
         });
       });
