@@ -1,6 +1,6 @@
 {
   "name": "govip",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A manager tool for multi user and traffic control.",
   "main": "server.js",
   "scripts": {
