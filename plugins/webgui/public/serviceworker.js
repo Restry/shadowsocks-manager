@@ -1,10 +1,11 @@
 // importScripts('/libs/serviceworker-cache-polyfill.js');
 
-var ONLINE_CACHE_NAME = '2017-03-15 18:38:30';
+var ONLINE_CACHE_NAME = '2017-03-22 14:31:27';
 var onlineCacheUrl = [
   '/',
 
   '/libs/angular.min.js',
+  '/libs/angular-inview.js',
   '/libs/angular-animate.min.js',
   '/libs/angular-aria.min.js',
   '/libs/angular-messages.min.js',
@@ -14,6 +15,8 @@ var onlineCacheUrl = [
   '/libs/angular-qr.min.js',
   '/libs/ngStorage.min.js',
   '/libs/Chart.min.js',
+  '/libs/marked.min.js',
+  '/libs/angular-marked.min.js',
   '/libs/angular-chart.min.js',
   '/libs/moment.min.js',
   '/libs/angular-moment.min.js',
@@ -51,8 +54,11 @@ var onlineCacheUrl = [
   '/public/views/admin/addServer.html',
   '/public/views/admin/admin.html',
   '/public/views/admin/editAccount.html',
+  '/public/views/admin/editNotice.html',
   '/public/views/admin/editServer.html',
   '/public/views/admin/index.html',
+  '/public/views/admin/newNotice.html',
+  '/public/views/admin/notice.html',
   '/public/views/admin/orderDialog.html',
   '/public/views/admin/orderFilterDialog.html',
   '/public/views/admin/pay.html',

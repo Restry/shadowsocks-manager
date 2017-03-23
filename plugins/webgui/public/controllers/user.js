@@ -81,18 +81,19 @@ app
     };
   }
 ])
-.controller('UserIndexController', ['$scope', "$sce",'$http', '$state',
-  ($scope, $sce, $http, $state) => {
+.controller('UserIndexController', ['$scope', '$state', 'userApi', 'markdownDialog',
+  ($scope, $state, userApi, markdownDialog) => {
     $scope.setTitle('首页');
+    $scope.notices = [];
+    userApi.getNotice().then(success => {
+      $scope.notices = success;
+    });
     $scope.toMyAccount = () => {
       $state.go('user.account');
     }; 
-    // console.log('start get setting;');
-    $http.get('/api/admin/setting?_='+new Date().getTime()).then(success => {
-     // console.log(success);
-      $scope.settings = success.data.value;
-      $('div#notice_box').html($scope.settings.notice);
-    });
+    $scope.showNotice = notice => {
+      markdownDialog.show(notice.title, notice.content);
+    };
   }
 ])
 .controller('UserAccountController', ['$scope', '$http', '$mdMedia', 'userApi', 'alertDialog', 'payDialog', '$interval', '$localStorage', 'changePasswordDialog',

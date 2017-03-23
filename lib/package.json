@@ -1,7 +1,13 @@
 {
+<<<<<<< HEAD
   "name": "govip",
   "version": "1.0.0",
   "description": "A manager tool for multi user and traffic control.",
+=======
+  "name": "shadowsocks-manager",
+  "version": "0.5.50",
+  "description": "A shadowsocks manager tool for multi user and traffic control.",
+>>>>>>> cfdce5646d0719a155b39f35be7665be03923355
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
