@@ -79,6 +79,11 @@ app
         };
       });
     };
+
+    $scope.alipayStatus = false;
+    userApi.getAlipayStatus().then(success => {
+      $scope.alipayStatus = success.status;
+    });
   }
 ])
 .controller('UserIndexController', ['$scope', '$state', 'userApi', 'markdownDialog',
@@ -91,6 +96,9 @@ app
     $scope.toMyAccount = () => {
       $state.go('user.account');
     }; 
+    $scope.showNotice = notice => {
+      markdownDialog.show(notice.title, notice.content);
+    };
     $scope.showNotice = notice => {
       markdownDialog.show(notice.title, notice.content);
     };

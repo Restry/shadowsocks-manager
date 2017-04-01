@@ -2,7 +2,7 @@ const log4js = require('log4js');
 const logger = log4js.getLogger('system');
 
 const dgram = require('dgram');
-let client;
+const client = dgram.createSocket('udp4');
 
 const config = appRequire('services/config').all();
 const host = config.shadowsocks.address.split(':')[0];
@@ -20,15 +20,16 @@ const sendPing = () => {
 };
 
 let existPort = [];
+let existPortUpdatedAt = Date.now();
 const setExistPort = flow => {
   existPort = [];
   for(const f in flow) {
     existPort.push(+f);
   }
+  existPortUpdatedAt = Date.now();
 };
 
 const connect = () => {
-  client = dgram.createSocket('udp4');
   client.on('message', async (msg, rinfo) => {
     const msgStr = new String(msg);
     if(msgStr.substr(0, 4) === 'pong') {
@@ -74,27 +75,8 @@ const connect = () => {
 const sendMessage = (message) => {
   const randomTraceNumber = Math.random().toString().substr(2,6);
   logger.info(`[${ randomTraceNumber }] Send to shadowsocks: ${ message }`);
-  return new Promise((resolve, reject) => {
-    const client = dgram.createSocket('udp4');
-    client.send(message, port, host, (err) => {
-      if(err) {
-        logger.error(`[${ randomTraceNumber }] Shadowsocks error:\n${err.stack}`);
-        return reject('error');
-      }
-    });
-    client.on('message', (msg) => {
-      logger.info(`[${ randomTraceNumber }] Receive from shadowsocks: ${ msg.toString() }`);
-      client.close();
-      resolve('ok');
-    });
-    client.on('close', () => {
-      logger.info(`[${ randomTraceNumber }] Shadowsocks close`);
-      return reject('close');
-    });
-    client.on('error', (err) => {
-      logger.error(`[${ randomTraceNumber }] Shadowsocks error:\n${err.stack}`);
-    });
-  });
+  client.send(message, port, host);
+  return Promise.resolve('ok');
 };
 
 const startUp = async () => {
@@ -109,6 +91,9 @@ const startUp = async () => {
 };
 
 const resend = async () => {
+  if(Date.now() - existPortUpdatedAt >= 180 * 1000) {
+    existPort = [];
+  }
   const accounts = await knex('account').select([ 'port', 'password' ]);
   accounts.forEach(f => {
     if(existPort.indexOf(f.port) < 0) {
