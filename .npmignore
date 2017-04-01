@@ -39,13 +39,5 @@ jspm_packages
 
 # config
 config/development.yml
-<<<<<<< HEAD
-plugins/alipay/config.js
-lib/plugins/alipay/config.js
-lib
-.vscode
-=======
 
 .vscode
-lib
->>>>>>> fb701b3e8c7be5a16b869ff9b4445519f26e320b
