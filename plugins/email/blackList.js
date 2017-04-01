@@ -1095,10 +1095,7 @@ const blackList = [
   '@mail-owl.com',
   '@mail-temporaire.com',
   '@mail-temporaire.fr',
-<<<<<<< HEAD
-=======
   '@mail.bccto.me',
->>>>>>> fb701b3e8c7be5a16b869ff9b4445519f26e320b
   '@mail.by',
   '@mail114.net',
   '@mail1a.de',
