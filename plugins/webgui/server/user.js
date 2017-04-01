@@ -211,13 +211,10 @@ exports.getNotice = (req, res) => {
     console.log(err);
     res.status(403).end();
   });
-<<<<<<< HEAD
-=======
 };
 
 exports.getAlipayStatus = (req, res) => {
   return res.send({
     status: config.plugins.alipay.use,
   });
->>>>>>> fb701b3e8c7be5a16b869ff9b4445519f26e320b
 };
