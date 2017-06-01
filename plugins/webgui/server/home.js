@@ -139,7 +139,7 @@ exports.sendCode = (req, res) => {
     const email = req.body.email.toString().toLowerCase();
     const ip = req.headers['x-real-ip'] || req.connection.remoteAddress;
     const session = req.sessionID;
-    return emailPlugin.sendCode(email, 'Shadowsocks验证码', '欢迎新用户注册，\n您的验证码是：', {
+    return emailPlugin.sendCode(email, 'ss验证码', '欢迎新用户注册，\n您的验证码是：', {
       ip,
       session,
     });
@@ -174,13 +174,8 @@ exports.sendResetPasswordEmail = (req, res) => {
     token = crypto.randomBytes(16).toString('hex');
     const ip = req.headers['x-real-ip'] || req.connection.remoteAddress;
     const session = req.sessionID;
-    let address;
-    if(req.headers.host) {
-      address = 'http://' + req.headers.host + '/home/password/reset/' + token;
-    } else {
-      address = config.plugins.webgui.site + '/home/password/reset/' + token;
-    }
-    return emailPlugin.sendMail(email, 'Shadowsocks密码重置', '请访问下列地址重置您的密码：\n' + address, {
+    const address = config.plugins.webgui.site + '/home/password/reset/' + token;
+    return emailPlugin.sendMail(email, 'ss密码重置', '请访问下列地址重置您的密码：\n' + address, {
       ip,
       session,
     });

@@ -5,7 +5,7 @@ const serverManager = appRequire('plugins/flowSaver/server');
 const flow = appRequire('plugins/flowSaver/flow');
 const manager = appRequire('services/manager');
 const moment = require('moment');
-
+const cron = appRequire('init/cron');
 let messages = [];
 
 const sendMessage = () => {
@@ -13,15 +13,14 @@ const sendMessage = () => {
     return;
   }
   messages.forEach(message => {
-    // console.log(message);
     manager.send(message[0], message[1]).then().catch();
   });
   messages = [];
 };
 
-setInterval(() => {
+cron.second(() => {
   sendMessage();
-}, 10 * 1000);
+}, 10);
 
 const addPort = (data, server) => {
   messages.push([{
@@ -66,11 +65,23 @@ const changePassword = async (id, password) => {
 };
 
 const checkFlow = async (server, port, startTime, endTime) => {
+  let isMultiServerFlow = false;
+  try {
+    isMultiServerFlow = await knex('webguiSetting').select().
+    where({ key: 'system' })
+    .then(success => {
+      if(!success.length) {
+        return Promise.reject('settings not found');
+      }
+      success[0].value = JSON.parse(success[0].value);
+      return success[0].value.multiServerFlow;
+    });
+  } catch (err) {}
   const flow = await knex('saveFlow')
   .sum('flow as sumFlow')
   .groupBy('port')
   .select(['port'])
-  .where({id: server, port,})
+  .where(isMultiServerFlow ? { port } : { id: server, port })
   .whereBetween('time', [startTime, endTime]);
   return flow[0] ? flow[0].sumFlow : 0;
 };
@@ -100,6 +111,18 @@ const checkServer = async () => {
   account.exist = number => {
     return !!account.filter(f => f.port === number)[0];
   };
+  let isMultiServerFlow = false;
+  try {
+    isMultiServerFlow = await knex('webguiSetting').select().
+    where({ key: 'system' })
+    .then(success => {
+      if(!success.length) {
+        return Promise.reject('settings not found');
+      }
+      success[0].value = JSON.parse(success[0].value);
+      return success[0].value.multiServerFlow;
+    });
+  } catch (err) {}
   const promises = [];
   server.forEach(s => {
     const checkServerAccount = async s => {
@@ -113,6 +136,23 @@ const checkServer = async () => {
           return !!port.filter(f => f.port === number)[0];
         };
         account.forEach(async a => {
+          const accountServer = a.server ? JSON.parse(a.server) : a.server;
+          if(accountServer) {
+            newAccountServer = accountServer.filter(f => {
+              return server.filter(sf => sf.id === f)[0];
+            });
+            if(JSON.stringify(newAccountServer) !== JSON.stringify(accountServer)) {
+              await knex('account_plugin').update({
+                server: JSON.stringify(newAccountServer),
+              }).where({
+                port: a.port,
+              });
+            }
+          }
+          if(accountServer && accountServer.indexOf(s.id) < 0) {
+            port.exist(a.port) && delPort(a, s);
+            return;
+          }
           if(a.type >= 2 && a.type <= 5) {
             let timePeriod = 0;
             if(a.type === 2) { timePeriod = 7 * 86400 * 1000; }
@@ -125,7 +165,10 @@ const checkServer = async () => {
               startTime += timePeriod;
             }
             const flow = await checkFlow(s.id, a.port, startTime, Date.now());
-            if(flow >= data.flow) {
+            if(isMultiServerFlow && flow >= data.flow) {
+              port.exist(a.port) && delPort(a, s);
+              return;
+            } else if (!isMultiServerFlow && flow >= data.flow * s.scale) {
               port.exist(a.port) && delPort(a, s);
               return;
             } else if(data.create + data.limit * timePeriod <= Date.now() || data.create >= Date.now()) {

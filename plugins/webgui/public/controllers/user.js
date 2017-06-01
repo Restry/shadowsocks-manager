@@ -104,8 +104,8 @@ app
     };
   }
 ])
-.controller('UserAccountController', ['$scope', '$http', '$mdMedia', 'userApi', 'alertDialog', 'payDialog', '$interval', '$localStorage', 'changePasswordDialog',
-  ($scope, $http, $mdMedia, userApi, alertDialog, payDialog, $interval, $localStorage, changePasswordDialog) => {
+.controller('UserAccountController', ['$scope', '$http', '$mdMedia', 'userApi', 'alertDialog', 'payDialog', 'qrcodeDialog', '$interval', '$localStorage', 'changePasswordDialog',
+  ($scope, $http, $mdMedia, userApi, alertDialog, payDialog, qrcodeDialog, $interval, $localStorage, changePasswordDialog) => {
     $scope.setTitle('我的账号');
     $scope.flexGtSm = 100;
     if(!$localStorage.user.serverInfo) {
@@ -126,6 +126,19 @@ app
       $scope.flexGtSm = 50;
     }
 
+    $http.get('/api/user/multiServerFlow').then(success => {
+      $scope.isMultiServerFlow = success.data.status;
+    });
+    
+    const setAccountServerList = (account, server) => {
+      account.forEach(a => {
+        a.serverList = $scope.servers.filter(f => {
+          return !a.server || a.server.indexOf(f.id) >= 0;
+        });
+      });
+    };
+    setAccountServerList($scope.account, $scope.servers);
+
     const getUserAccountInfo = () => {
       userApi.getUserAccount().then(success => {
         $scope.servers = success.servers;
@@ -139,6 +152,7 @@ app
         } else {
           $scope.account = success.account;
         }
+        setAccountServerList($scope.account, $scope.servers);
         $localStorage.user.serverInfo.data = success.servers;
         $localStorage.user.serverInfo.time = Date.now();
         $localStorage.user.accountInfo.data = success.account;
@@ -155,8 +169,13 @@ app
         return String.fromCharCode('0x' + p1);
       }));
     };
-    $scope.createQrCode = (method, password, host, port) => {
-      return 'ss://' + base64Encode(method + ':' + password + '@' + host + ':' + port);
+    $scope.createQrCode = (method, password, host, port, serverName) => {
+      const checkAscii = str => {
+        return str.split('').filter(f => {
+          return f.charCodeAt() >= 31 && f.charCodeAt() <= 127 ;
+        }).join('');
+      };
+      return 'ss://' + base64Encode(method + ':' + password + '@' + host + ':' + port) + '#' + checkAscii(serverName);
     };
 
     $scope.getServerPortData = (account, serverId, port) => {
@@ -211,6 +230,17 @@ app
       return {
         color: '#a33',
       };
+    };
+    $scope.isAccountOutOfDate = account => {
+      if(account.type >=2 && account.type <= 5) {
+        return Date.now() >= account.data.expire;
+      } else {
+        return false;
+      }
+    };
+    $scope.showQrcodeDialog = (method, password, host, port, serverName) => {
+      const ssAddress = $scope.createQrCode(method, password, host, port, serverName);
+      qrcodeDialog.show(serverName, ssAddress);
     };
   }
 ]);

@@ -3,13 +3,12 @@ const logger = log4js.getLogger('flowSaver');
 const path = require('path');
 appRequire('plugins/flowSaver/server');
 appRequire('plugins/flowSaver/flow');
+appRequire('plugins/flowSaver/generateFlow');
+const cron = appRequire('init/cron');
 const knex = appRequire('init/knex').knex;
 const manager = appRequire('services/manager');
-const later = require('later');
 const moment = require('moment');
-later.date.localTime();
 const minute = 1;
-const sched0 = later.parse.recur().every(minute).minute();
 const time = minute * 60 * 1000;
 
 const saveFlow = async () => {
@@ -58,7 +57,6 @@ const saveFlow = async () => {
   }
 };
 
-saveFlow();
-const timer0 = later.setInterval(() => {
+cron.minute(() => {
   saveFlow();
-}, sched0);
+}, 1);

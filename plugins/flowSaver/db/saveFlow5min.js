@@ -1,5 +1,5 @@
 const knex = appRequire('init/knex').knex;
-const tableName = 'saveFlow';
+const tableName = 'saveFlow5min';
 
 const config = appRequire('services/config').all();
 const createTable = async() => {

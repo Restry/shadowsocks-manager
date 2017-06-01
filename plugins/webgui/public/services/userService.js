@@ -14,7 +14,12 @@ app.factory('userApi', ['$q', '$http', ($q, $http) => {
     ]).then(success => {
       return {
         account: success[0].data,
-        servers: success[1].data,
+        servers: success[1].data.map(server => {
+          if(server.host.indexOf(':') >= 0) {
+            server.host = server.host.split(':')[1];
+          }
+          return server;
+        }),
       };
     });
     return userAccountPromise;
@@ -34,7 +39,7 @@ app.factory('userApi', ['$q', '$http', ($q, $http) => {
       });
     } else {
       account.forEach((a, index) => {
-        $http.get('/api/user/account/' + a.id).then(success => {
+        $http.get(`/api/user/account/${ a.id }`).then(success => {
           if(!success.data.id) {
             account.splice(index, 1);
             return;

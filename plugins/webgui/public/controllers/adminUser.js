@@ -29,6 +29,7 @@ app.controller('AdminUserController', ['$scope', '$state', '$stateParams', 'admi
         search,
         sort: $scope.userSort.sort,
       }).then(success => {
+        $scope.total = success.total;
         if(!search && $scope.menuSearch.text) { return; }
         if(search && search !== $scope.menuSearch.text) { return; }
         success.users.forEach(f => {
@@ -97,6 +98,11 @@ app.controller('AdminUserController', ['$scope', '$state', '$stateParams', 'admi
         $scope.user = success.user;
         $scope.account = success.account;
         $scope.orders = success.orders;
+        $scope.user.account.forEach(f => {
+          adminApi.getUserPortLastConnect(f.port).then(success => {
+            f.lastConnect = success.lastConnect;
+          });
+        });
       });
     };
     getUserData();

@@ -1,6 +1,6 @@
 const log4js = require('log4js');
 const logger = log4js.getLogger('system');
-
+const cron = appRequire('init/cron');
 const dgram = require('dgram');
 const client = dgram.createSocket('udp4');
 
@@ -125,10 +125,10 @@ const compareWithLastFlow = (flow, lastFlow) => {
 
 connect();
 startUp();
-setInterval(() => {
+cron.minute(() => {
   resend();
   sendPing();
-}, 60 * 1000);
+}, 1);
 
 const checkPortRange = (port) => {
   if(!config.shadowsocks.portRange) { return true; }
@@ -208,14 +208,13 @@ const listAccount = async () => {
 
 const getFlow = async (options) => {
   try {
-    const startTime = moment(options.startTime || new Date(0)).toDate();
-    const endTime = moment(options.endTime || new Date()).toDate();
+    const startTime = moment(options.startTime || new Date(0)).toDate().getTime();
+    const endTime = moment(options.endTime || new Date()).toDate().getTime();
 
     const accounts = await knex('account').select([ 'port' ]);
-    const flows = await knex('flow').select([ 'port', 'sumFlow' ])
+    const flows = await knex('flow').select([ 'port' ])
     .sum('flow as sumFlow').groupBy('port')
     .whereBetween('time', [ startTime, endTime ]);
-
     accounts.map(m => {
       const flow = flows.filter(f => {
         return f.port === m.port;

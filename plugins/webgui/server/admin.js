@@ -64,7 +64,6 @@ exports.addServer = (req, res) => {
     }
     result.throw();
   }).then(success => {
-    // console.log(success);
     const name = req.body.name;
     const address = req.body.address;
     const port = +req.body.port;
@@ -85,6 +84,7 @@ exports.editServer = (req, res) => {
   req.checkBody('port', 'Invalid port').isInt({min: 1, max: 65535});
   req.checkBody('password', 'Invalid password').notEmpty();
   req.checkBody('method', 'Invalid method').notEmpty();
+  req.checkBody('scale', 'Invalid scale').notEmpty();
   req.getValidationResult().then(result => {
     if(result.isEmpty()) {
       const address = req.body.address;
@@ -101,14 +101,14 @@ exports.editServer = (req, res) => {
     }
     result.throw();
   }).then(success => {
-    console.log(success);
     const serverId = req.params.serverId;
     const name = req.body.name;
     const address = req.body.address;
     const port = +req.body.port;
     const password = req.body.password;
     const method = req.body.method;
-    return serverManager.edit(serverId, name, address, port, password, method);
+    const scale = req.body.scale;
+    return serverManager.edit(serverId, name, address, port, password, method, scale);
   }).then(success => {
     res.send('success');
   }).catch(err => {
@@ -196,6 +196,7 @@ exports.getOneAccount = (req, res) => {
           accountInfo.data.to = accountInfo.data.from + time[accountInfo.type];
         }
       }
+      accountInfo.server = accountInfo.server ? JSON.parse(accountInfo.server) : accountInfo.server;
       return res.send(accountInfo);
     }
     Promise.reject('account not found');
@@ -268,6 +269,7 @@ exports.changeAccountData = (req, res) => {
     limit: +req.body.limit,
     flow: +req.body.flow,
     autoRemove: +req.body.autoRemove,
+    server: req.body.server,
   }).then(success => {
     res.send('success');
   }).catch(err => {
@@ -283,23 +285,23 @@ exports.getServerFlow = (req, res) => {
   const time = req.query.time || Date.now();
   let timeArray = [];
   if(Array.isArray(time)) {
-    timeArray = time;
+    timeArray = time.map(m => +m);
   } else if(type === 'day') {
     let i = 0;
     while(i < 25) {
-      timeArray.push(moment(time).hour(i).minute(0).second(0).millisecond(0).toDate().valueOf());
+      timeArray.push(moment(+time).hour(i).minute(0).second(0).millisecond(0).toDate().valueOf());
       i++;
     }
   } else if (type === 'hour') {
     let i = 0;
     while(i < 13) {
-      timeArray.push(moment(time).minute(i * 5).second(0).millisecond(0).toDate().valueOf());
+      timeArray.push(moment(+time).minute(i * 5).second(0).millisecond(0).toDate().valueOf());
       i++;
     }
   } else if (type === 'week') {
     let i = 0;
     while(i < 8) {
-      timeArray.push(moment(time).day(i).hour(0).minute(0).second(0).millisecond(0).toDate().valueOf());
+      timeArray.push(moment(+time).day(i).hour(0).minute(0).second(0).millisecond(0).toDate().valueOf());
       i++;
     }
   }
@@ -322,7 +324,7 @@ exports.getServerLastHourFlow = (req, res) => {
   let timeArray = [];
   let i = 0;
   const now = Date.now();
-  const time = moment(now).add(0 - (moment(now).minute() % 5), 'm').toDate().valueOf();
+  const time = moment(now).add(0 - (moment(now).minute() % 5), 'm').second(0).millisecond(0).toDate().valueOf();
   while(i < 13) {
     timeArray.push(moment(time).add(i * 5 - 60, 'm').toDate().valueOf());
     i++;
@@ -344,7 +346,7 @@ exports.getServerLastHourFlow = (req, res) => {
 exports.getServerUserFlow = (req, res) => {
   const serverId = +req.params.serverId;
   const type = req.query.type;
-  const time = req.query.time || Date.now();
+  const time = +req.query.time || Date.now();
   let timeArray = [];
   if(Array.isArray(time)) {
     timeArray = time;
@@ -394,9 +396,18 @@ exports.getServerPortFlow = (req, res) => {
           i++;
         }
       }
-      return flow.getServerPortFlow(serverId, port, timeArray);
+      return knex('webguiSetting').select().where({ key: 'system' })
+      .then(success => {
+        if(!success.length) {
+          return Promise.reject('settings not found');
+        }
+        success[0].value = JSON.parse(success[0].value);
+        return success[0].value.multiServerFlow;
+      }).then(isMultiServerFlow => {
+        return flow.getServerPortFlow(serverId, port, timeArray, isMultiServerFlow);
+      });
     } else {
-      return [0];
+      return [ 0 ];
     }
   }).then(success => {
     res.send(success);
@@ -409,7 +420,7 @@ exports.getServerPortFlow = (req, res) => {
 exports.getAccountServerFlow = (req, res) => {
   const accountId = +req.params.accountId;
   const type = req.query.type;
-  const time = req.query.time || Date.now();
+  const time = +req.query.time || Date.now();
   let timeArray = [];
   if(Array.isArray(time)) {
     timeArray = time;
@@ -442,6 +453,14 @@ exports.getUsers = (req, res) => {
     search,
     sort,
   }).then(success => {
+    success.users = success.users.map(m => {
+      return {
+        id: m.id,
+        email: m.email,
+        lastLogin: m.lastLogin,
+        username: m.username,
+      };
+    });
     return res.send(success);
   }).catch(err => {
     console.log(err);
@@ -553,6 +572,16 @@ exports.getOrders = (req, res) => {
   alipay.orderListAndPaging(options)
   .then(success => {
     res.send(success);
+  }).catch(err => {
+    console.log(err);
+    res.status(403).end();
+  });
+};
+
+exports.getUserPortLastConnect = (req, res) => {
+  const port = +req.params.port;
+  flow.getUserPortLastConnect(port).then(success => {
+    return res.send(success);
   }).catch(err => {
     console.log(err);
     res.status(403).end();
