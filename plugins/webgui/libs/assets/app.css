@@ -102,11 +102,11 @@ a {
     height: 751px;
 }
 
-@media screen and (max-width: 1024px) {
+/*@media screen and (max-width: 1024px) {
     .block, .bg {
         width: 1440px;
     }
-}
+}*/
 
 @keyframes bg{
     from {
