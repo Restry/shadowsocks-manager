@@ -85,6 +85,7 @@ gulp.task('webguiCopy', ['webguiBuild'], () => {
   return gulp
     .src([
       'plugins/webgui/libs/**',
+      'plugins/webgui/frontend/**',
       'plugins/webgui/public/**',
       'plugins/webgui/views/**',
     ], {

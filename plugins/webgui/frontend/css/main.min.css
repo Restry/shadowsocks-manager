@@ -1,0 +1,1007 @@
+/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+/**
+ * 1. Set default font family to sans-serif.
+ * 2. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+html {
+    font-family: sans-serif;
+    /* 1 */
+    -ms-text-size-adjust: 100%;
+    /* 2 */
+    -webkit-text-size-adjust: 100%;
+    /* 2 */
+}
+
+/**
+ * Remove default margin.
+ */
+body {
+    margin: 5rem;
+}
+
+/* HTML5 display definitions
+   ========================================================================== */
+/**
+ * Correct `block` display not defined for any HTML5 element in IE 8/9.
+ * Correct `block` display not defined for `details` or `summary` in IE 10/11
+ * and Firefox.
+ * Correct `block` display not defined for `main` in IE 11.
+ */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+    display: block;
+}
+
+/**
+ * 1. Correct `inline-block` display not defined in IE 8/9.
+ * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
+ */
+audio,
+canvas,
+progress,
+video {
+    display: inline-block;
+    /* 1 */
+    vertical-align: baseline;
+    /* 2 */
+}
+
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+audio:not([controls]) {
+    display: none;
+    height: 0;
+}
+
+/**
+ * Address `[hidden]` styling not present in IE 8/9/10.
+ * Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
+ */
+[hidden],
+template {
+    display: none;
+}
+
+/* Links
+   ========================================================================== */
+/**
+ * Remove the gray background color from active links in IE 10.
+ */
+a {
+    background-color: transparent;
+}
+
+/**
+ * Improve readability when focused and also mouse hovered in all browsers.
+ */
+a:active,
+a:hover {
+    outline: 0;
+}
+
+/* Text-level semantics
+   ========================================================================== */
+/**
+ * Address styling not present in IE 8/9/10/11, Safari, and Chrome.
+ */
+abbr[title] {
+    border-bottom: 1px dotted;
+}
+
+/**
+ * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
+ */
+b,
+strong {
+    font-weight: bold;
+}
+
+/**
+ * Address styling not present in Safari and Chrome.
+ */
+dfn {
+    font-style: italic;
+}
+
+/**
+ * Address variable `h1` font-size and margin within `section` and `article`
+ * contexts in Firefox 4+, Safari, and Chrome.
+ */
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+
+/**
+ * Address styling not present in IE 8/9.
+ */
+mark {
+    background: #ff0;
+    color: #000;
+}
+
+/**
+ * Address inconsistent and variable font size in all browsers.
+ */
+small {
+    font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -0.5em;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+/* Embedded content
+   ========================================================================== */
+/**
+ * Remove border when inside `a` element in IE 8/9/10.
+ */
+img {
+    border: 0;
+}
+
+/**
+ * Correct overflow not hidden in IE 9/10/11.
+ */
+svg:not(:root) {
+    overflow: hidden;
+}
+
+/* Grouping content
+   ========================================================================== */
+/**
+ * Address margin not present in IE 8/9 and Safari.
+ */
+figure {
+    margin: 1em 40px;
+}
+
+/**
+ * Address differences between Firefox and other browsers.
+ */
+hr {
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 0;
+}
+
+/**
+ * Contain overflow in all browsers.
+ */
+pre {
+    overflow: auto;
+}
+
+/**
+ * Address odd `em`-unit font size rendering in all browsers.
+ */
+code,
+kbd,
+pre,
+samp {
+    font-family: monospace, monospace;
+    font-size: 1em;
+}
+
+/* Forms
+   ========================================================================== */
+/**
+ * Known limitation: by default, Chrome and Safari on OS X allow very limited
+ * styling of `select`, unless a `border` property is set.
+ */
+/**
+ * 1. Correct color not being inherited.
+ *    Known issue: affects color of disabled elements.
+ * 2. Correct font properties not being inherited.
+ * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
+ */
+button,
+input,
+optgroup,
+select,
+textarea {
+    color: inherit;
+    /* 1 */
+    font: inherit;
+    /* 2 */
+    margin: 0;
+    /* 3 */
+}
+
+/**
+ * Address `overflow` set to `hidden` in IE 8/9/10/11.
+ */
+button {
+    overflow: visible;
+}
+
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.
+ * Correct `select` style inheritance in Firefox.
+ */
+button,
+select {
+    text-transform: none;
+}
+
+/**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
+ */
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+    -webkit-appearance: button;
+    /* 2 */
+    cursor: pointer;
+    /* 3 */
+}
+
+/**
+ * Re-set default cursor for disabled elements.
+ */
+button[disabled],
+html input[disabled] {
+    cursor: default;
+}
+
+/**
+ * Remove inner padding and border in Firefox 4+.
+ */
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+/**
+ * Address Firefox 4+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+input {
+    line-height: normal;
+}
+
+/**
+ * It's recommended that you don't attempt to style these elements.
+ * Firefox's implementation doesn't respect box-sizing, padding, or width.
+ *
+ * 1. Address box sizing set to `content-box` in IE 8/9/10.
+ * 2. Remove excess padding in IE 8/9/10.
+ */
+input[type="checkbox"],
+input[type="radio"] {
+    box-sizing: border-box;
+    /* 1 */
+    padding: 0;
+    /* 2 */
+}
+
+/**
+ * Fix the cursor style for Chrome's increment/decrement buttons. For certain
+ * `font-size` values of the `input`, it causes the cursor style of the
+ * decrement button to change from `default` to `text`.
+ */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    height: auto;
+}
+
+/**
+ * 1. Address `appearance` set to `searchfield` in Safari and Chrome.
+ * 2. Address `box-sizing` set to `border-box` in Safari and Chrome
+ *    (include `-moz` to future-proof).
+ */
+input[type="search"] {
+    -webkit-appearance: textfield;
+    /* 1 */
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    /* 2 */
+    box-sizing: content-box;
+}
+
+/**
+ * Remove inner padding and search cancel button in Safari and Chrome on OS X.
+ * Safari (but not Chrome) clips the cancel button when the search input has
+ * padding (and `textfield` appearance).
+ */
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+
+/**
+ * Define consistent border, margin, and padding.
+ */
+fieldset {
+    border: 1px solid #c0c0c0;
+    margin: 0 2px;
+    padding: 0.35em 0.625em 0.75em;
+}
+
+/**
+ * 1. Correct `color` not being inherited in IE 8/9/10/11.
+ * 2. Remove padding so people aren't caught out if they zero out fieldsets.
+ */
+legend {
+    border: 0;
+    /* 1 */
+    padding: 0;
+    /* 2 */
+}
+
+/**
+ * Remove default vertical scrollbar in IE 8/9/10/11.
+ */
+textarea {
+    overflow: auto;
+}
+
+/**
+ * Don't inherit the `font-weight` (applied by a rule above).
+ * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
+ */
+optgroup {
+    font-weight: bold;
+}
+
+/* Tables
+   ========================================================================== */
+/**
+ * Remove most spacing between table cells.
+ */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+td,
+th {
+    padding: 0;
+}
+
+body {
+    /*background-color: #fce87c;*/
+    color: #000;
+    font-family: "Open Sans", Helevetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+h1, h2, h3,
+h4, h5, h6 {
+    font-weight: 700;
+    margin-bottom: 5px;
+    margin-top: 0;
+}
+
+h1 {
+    font-size: 38px;
+}
+
+h2 {
+    color: #fff;
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+h3 {
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+blockquote {
+    color: #999;
+    font-size: 18px;
+    font-style: italic;
+}
+
+p {
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+
+.article {
+    padding-bottom: 40px;
+    padding-top: 40px;
+}
+
+.article-body {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.article-title {
+    border-bottom: 3px solid #6ba2aa;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.cell {
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.comment {
+    margin-bottom: 40px;
+}
+
+.comment > img {
+    border: 2px solid #45686D;
+    border-radius: 50%;
+    float: left;
+    height: 64px;
+    width: 64px;
+    margin: 0 10px 0 0;
+}
+
+.comment-actions {
+    color: #9ecbd2;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.comment-actions a {
+    color: #9ecbd2;
+    text-decoration: underline;
+    transition: 0.2s ease-in-out;
+}
+
+.comment-actions a:active, .comment-actions > a:focus, .comment-actions > a:hover {
+    color: #fff;
+}
+
+.comment-actions > a {
+    margin-left: 15px;
+}
+
+.comment-body {
+    color: #0b4802;
+}
+
+.comment-count {
+    color: #9ecbd2;
+    margin-bottom: 20px;
+}
+
+.comment-button {
+    background-color: #45686D;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    float: right;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 6px 12px;
+    text-transform: uppercase;
+    outline: none;
+    width: 145px;
+}
+
+.comment-button:active {
+    background-color: #5C8288;
+}
+
+.comment-list {
+    margin-top: 40px;
+}
+
+.comment-header {
+    border-bottom: 2px solid #fff;
+    color: #525151;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+}
+
+.comment-form {
+    background-color: #9ecbd2;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    padding: 20px;
+    position: relative;
+}
+
+.comment-form::before {
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNDk4NTc0ODA3MjI0IiBjbGFzcz0iaWNvbiIgc3R5bGU9IiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjE4MDUiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48L3N0eWxlPjwvZGVmcz48cGF0aCBkPSJNNDk2LjIxNDkwOCA1MTEuOTkxbS00NzYuODE2Nzk0IDBhNDc2LjgxNjc5NCA0NzYuODE2Nzk0IDAgMSAwIDk1My42MzM1ODcgMCA0NzYuODE2Nzk0IDQ3Ni44MTY3OTQgMCAxIDAtOTUzLjYzMzU4NyAwWiIgZmlsbD0iI0ZGREI2QyIgcC1pZD0iMTgwNiI+PC9wYXRoPjxwYXRoIGQ9Ik01OTguMzkxNTA2IDkxOC40MjUzODFjLTI2My4zMzc1NDMgMC00NzYuODE0Nzk0LTIxMy40NzcyNTEtNDc2LjgxNDc5NC00NzYuODE0NzkzIDAtMTQwLjY5MDgyNCA2MC45NDYzNTctMjY3LjEzMTU2NSAxNTcuODY0OTI1LTM1NC40MDgwNzdDMTI1LjA3NDczMyAxNjYuMTI4OTczIDE5LjM5ODExNCAzMjYuNzIzOTE0IDE5LjM5ODExNCA1MTIuMDAxYzAgMjYzLjMzNzU0MyAyMTMuNDc3MjUxIDQ3Ni44MTQ3OTQgNDc2LjgxNDc5MyA0NzYuODE0Nzk0IDEyMi42NDY3MTkgMCAyMzQuNDYzMzc0LTQ2LjMyMjI3MSAzMTguOTQ5ODY5LTEyMi40MDI3MTctNjUuMDM2MzgxIDMzLjI1MDE5NS0xMzguNzEwODEzIDUyLjAxMjMwNS0yMTYuNzcxMjcgNTIuMDEyMzA0eiIgZmlsbD0iI0ZGQjA0QyIgcC1pZD0iMTgwNyI+PC9wYXRoPjxwYXRoIGQ9Ik0yOTEuMzAzNzA3IDUxOC44MzcwNGMtMzUuNDEwMjA3IDAtNjQuMTE4Mzc2IDI4LjcwNjE2OC02NC4xMTgzNzYgNjQuMTE0Mzc2aDEyOC4yMzI3NTJjMC4wMDQtMzUuNDEwMjA3LTI4LjcwMjE2OC02NC4xMTQzNzYtNjQuMTE0Mzc2LTY0LjExNDM3NnpNODUwLjU2Njk4NCA1MTguODM3MDRjLTM1LjQxMDIwNyAwLTY0LjExODM3NiAyOC43MDYxNjgtNjQuMTE4Mzc2IDY0LjExNDM3NmgxMjguMjMyNzUxYzAtMzUuNDEwMjA3LTI4LjcwNjE2OC02NC4xMTQzNzYtNjQuMTE0Mzc1LTY0LjExNDM3NnoiIGZpbGw9IiNGOUE4ODAiIHAtaWQ9IjE4MDgiPjwvcGF0aD48cGF0aCBkPSJNMjIxLjc2MTI5OSAyNTMuOTQ5NDg4YzEyNC41MDA3MjktMjguNTc0MTY3IDIyNS4yODczMi0xOC43NDAxMSAzMzYuOTI5OTc1IDcuMjc4MDQzIDE2LjU1NjA5NyAzLjg1NjAyMyAzNC4wNDQxOTkgOC4xNTgwNDggNTIuNTE2MzA3IDguNzIyMDUxIDMwLjc2MDE4IDAuOTQyMDA2IDY1LjMzODM4My02LjcxNDAzOSA5NS4xNTA1NTgtMTQuMjA0MDgzIDExNy43MDA2OS0yOS41NjYxNzMgMjA5LjY0NTIyOC0xNC4xODgwODMgMjk4LjI0Nzc0NyA0Ljc0NDAyN2wtNi41NDYwMzggNTIuMzYwMzA3Yy0xMy44MzIwODEgMC4zMDYwMDItMTguMTgyMTA3IDYuNzU2MDQtMjIuMTM0MTMgMTkuMzQ2MTEzLTIwLjY4MDEyMSA2NS44OTAzODYtMy4wNjgwMTggMTc5LjI2MTA1LTE1NS45NTY5MTMgMTY1LjkzMDk3My0xMDAuNTgwNTg5LTguNzcwMDUxLTEyOS4zODQ3NTgtMzYuMzI4MjEzLTE3Ny4zMjEwMzktMTU3LjQ5MjkyMy00LjA3ODAyNC0xMC4zMDYwNi02LjczMDAzOS0yNy4zMzgxNi0zMC4wMjIxNzYtMjYuNzA4MTU3LTEzLjE1MjA3NyAwLjM1NDAwMi0yNC45MTQxNDYgMi42ODAwMTYtMjkuMDE2MTcgMjUuNTMwMTUtNy42NDYwNDUgNDIuNTc2MjQ5LTY1Ljc4NjM4NSAxNTguMjU4OTI3LTE4My44MzEwNzggMTU4LjEzMDkyNy0xMDQuMjY0NjExLTAuMTEyMDAxLTE0NC4wMzg4NDQtNTQuMjMyMzE4LTE0OC43ODY4NzEtMTczLjQ4NzAxNy0wLjU5MDAwMy0xNC44MDYwODctMTMuNDkyMDc5LTE3LjYxODEwMy0yMS4yMzQxMjUtMTcuNzkyMTA0bC03Ljk5NjA0Ny01Mi4zNTgzMDd6IiBmaWxsPSIjNTY1ODZGIiBwLWlkPSIxODA5Ij48L3BhdGg+PHBhdGggZD0iTTQwMi41NjQzNTkgMjM3LjQ2OTM5MWwtNzIuODEyNDI3IDI0OC4zMTE0NTVjMTkuMTYyMTEyIDcuODg0MDQ2IDQyLjI5MjI0OCAxMS43NzYwNjkgNzAuMDI4NDEgMTEuODA0MDcgMC40ODgwMDMgMCAwLjk3MDAwNi0wLjAxOCAxLjQ1ODAwOS0wLjAyMDAwMWw3NC4wODA0MzQtMjUyLjYzNTQ4Yy0yNC4yMjgxNDItMy42NjQwMjEtNDguMzUwMjgzLTYuMjI4MDM2LTcyLjc1NDQyNi03LjQ2MDA0NHpNODU1LjM1OTAxMiAyMzkuNDgxNDAzYy0yNC4yMzIxNDItMC43NzYwMDUtNDkuMzg2Mjg5IDAtNzUuODA2NDQ0IDIuOTUwMDE3bC02NS4wMDIzODEgMjIxLjY3NTI5OWMxNy43NzYxMDQgMTQuOTI4MDg3IDM4Ljc2MjIyNyAyMy41OTgxMzggNjYuNDY4Mzg5IDI4Ljg5NDE3bDc0LjM0MDQzNi0yNTMuNTE5NDg2eiIgZmlsbD0iIzczNzg5MSIgcC1pZD0iMTgxMCI+PC9wYXRoPjxwYXRoIGQ9Ik01OTUuNTM5NDg5IDg2MS4zMTcwNDdjLTEwNi41OTI2MjUgMC0xOTMuMDA1MTMxLTg2LjQxMjUwNi0xOTMuMDA1MTMtMTkzLjAwNTEzMUg3ODguNTQ0NjJjMC4wMDIgMTA2LjU5MjYyNS04Ni40MTA1MDYgMTkzLjAwNTEzMS0xOTMuMDA1MTMxIDE5My4wMDUxMzF6IiBmaWxsPSIjN0YxODRDIiBwLWlkPSIxODExIj48L3BhdGg+PHBhdGggZD0iTTQ0OS42MjY2MzUgNjY4LjMwNzkxNnYzMC4xMjgxNzZjMCAxMi43MDQwNzQgMTAuMjk4MDYgMjMuMDAwMTM1IDIzLjAwMDEzNCAyMy4wMDAxMzVoMjQ1LjgyMzQ0MWMxMi43MDQwNzQgMCAyMy4wMDAxMzUtMTAuMjk4MDYgMjMuMDAwMTM0LTIzLjAwMDEzNXYtMzAuMTI4MTc2SDQ0OS42MjY2MzV6IiBmaWxsPSIjRjJGMkYyIiBwLWlkPSIxODEyIj48L3BhdGg+PHBhdGggZD0iTTU5OS41OTE1MTMgNzgxLjI0MjU3OGMtNTIuMTcyMzA2LTI0LjI0MDE0Mi0xMTAuMDY2NjQ1LTIwLjcxNjEyMS0xNTcuMDE0OTIgNC40MjIwMjYgMzUuMjc4MjA3IDQ1Ljk4MDI2OSA5MC43NTQ1MzIgNzUuNjUwNDQzIDE1My4xODY4OTggNzUuNjUwNDQzYTE5Mi4yODExMjcgMTkyLjI4MTEyNyAwIDAgMCA3Ny4zNDQ0NTMtMTYuMTcwMDk1Yy0xNy4zNzYxMDItMjYuODg2MTU4LTQyLjI5MjI0OC00OS4zOTQyODktNzMuNTE2NDMxLTYzLjkwMjM3NHoiIGZpbGw9IiNGQzRDNTkiIHAtaWQ9IjE4MTMiPjwvcGF0aD48cGF0aCBkPSJNMTAwOC42NTc5MSAyNDEuNTE5NDE1Yy05Mi42MzI1NDMtMTkuNzkwMTE2LTE4NS44MTMwODktMzUuMDM0MjA1LTMwNy4wMjk3OTktNC41ODYwMjctMzAuMTgyMTc3IDcuNTg0MDQ0LTYxLjk5NDM2MyAxNC40NzQwODUtODkuODMwNTI2IDEzLjYzMDA4LTE1LjU1MjA5MS0wLjQ3NjAwMy0zMS4wNTIxODItNC4wOTYwMjQtNDYuMDQyMjctNy42MDIwNDRsLTIuNjY0MDE2LTAuNjI0MDA0Yy05Ny4yNjY1Ny0yMi42NzAxMzMtMjA2LjQ2NTIxLTM5LjI0MjIzLTM0NS42NzIwMjUtNy4yOTQwNDNhMTkuMzk4MTE0IDE5LjM5ODExNCAwIDAgMC0xNC44MzYwODcgMjEuODM0MTI4bDguMDAwMDQ3IDUyLjM2MDMwN2ExOS4zOTYxMTQgMTkuMzk2MTE0IDAgMCAwIDE4Ljc0MDExIDE2LjQ2MjA5NmMwLjk1MDAwNiAwLjAyIDEuNzMwMDEgMC4xMTYwMDEgMi4zMjgwMTMgMC4yMzAwMDIgMi43NTAwMTYgNjYuMDA4Mzg3IDE1LjkzNjA5MyAxMTEuMTM2NjUxIDQxLjQ3NjI0MyAxNDEuOTY0ODMyIDI3LjMxNDE2IDMyLjk2ODE5MyA2OC43MzQ0MDMgNDkuMDI2Mjg3IDEyNi42Mjg3NDIgNDkuMDg2Mjg3aDAuMjE4MDAyYzcxLjE4ODQxNyAwIDExOS41ODQ3MDEtMzcuODQwMjIyIDE0Ny42NTQ4NjUtNjkuNjA0NDA4IDMxLjQ3ODE4NC0zNS42MTgyMDkgNTAuMzQyMjk1LTc4LjE0ODQ1OCA1NS4wNzQzMjItMTA0LjQ5ODYxMiAxLjIzODAwNy02Ljg5MjA0IDIuOTU2MDE3LTguNjAyMDUgMi45NjQwMTgtOC42MTAwNSAwLjI4MjAwMi0wLjE4NDAwMSAxLjY2MDAxLTAuODAwMDA1IDcuNDkwMDQ0LTAuOTU2MDA2IDYuMDQwMDM1LTAuMTU4MDAxIDYuMjYyMDM3LTAuMTYyMDAxIDkuNzAyMDU3IDkuNjQ2MDU3IDAuNTkyMDAzIDEuNjg4MDEgMS4xNjQwMDcgMy4zMDgwMTkgMS43NTgwMSA0LjgwNjAyOCAyMy4zOTQxMzcgNTkuMTMyMzQ2IDQzLjkzMjI1NyAxMDEuMjAwNTkzIDczLjk5ODQzMyAxMjguMTkyNzUxIDMxLjc5NDE4NiAyOC41NDYxNjcgNzAuODM2NDE1IDM3LjIzMDIxOCAxMTkuNjcyNzAyIDQxLjQ4ODI0MyA4LjgwMjA1MiAwLjc2ODAwNSAxNy4yMjgxMDEgMS4xNTQwMDcgMjUuMjg0MTQ4IDEuMTU0MDA3IDQ4LjQ5NDI4NCAwIDgzLjU3MjQ5LTEzLjk1MDA4MiAxMDYuNzkwNjI2LTQyLjMzODI0OCAwLjU5MDAwMy0wLjcyMjAwNCAxLjEyMjAwNy0xLjQ3MDAwOSAxLjY4ODAwOS0yLjIwMDAxMyAxLjAzNDAwNiAxMi41OTgwNzQgMS41NzgwMDkgMjUuMjU4MTQ4IDEuNTc4MDEgMzcuOTM4MjIyIDAgMjUyLjIyMTQ3OC0yMDUuMTk3MjAyIDQ1Ny40MTY2OC00NTcuNDE2NjgxIDQ1Ny40MTY2OFMzOC43OTQyMjcgNzY0LjIyMjQ3OCAzOC43OTQyMjcgNTEyLjAwMSAyNDMuOTg5NDMgNTQuNTg0MzIgNDk2LjIwODkwNyA1NC41ODQzMmMxMDEuMDYwNTkyIDAgMTk2Ljg0NzE1MyAzMi4yOTAxODkgMjc3LjAwMzYyNCA5My4zODA1NDcgOC41MjAwNSA2LjQ5NDAzOCAyMC42OTQxMjEgNC44NTAwMjggMjcuMTg0MTU5LTMuNjcwMDIyIDYuNDk0MDM4LTguNTIyMDUgNC44NTIwMjgtMjAuNjk0MTIxLTMuNjcwMDIyLTI3LjE4ODE1OS04Ni45NzA1MS02Ni4yODAzODgtMTkwLjg4OTExOC0xMDEuMzE2NTk0LTMwMC41MTk3NjEtMTAxLjMxNjU5M0MyMjIuNTk5MzA0IDE1Ljc4ODA5MyAwIDIzOC4zODkzOTcgMCA1MTIuMDAxczIyMi41OTkzMDQgNDk2LjIxMjkwNyA0OTYuMjA4OTA3IDQ5Ni4yMTI5MDhjMjczLjYxMzYwMyAwIDQ5Ni4yMTI5MDctMjIyLjU5OTMwNCA0OTYuMjEyOTA4LTQ5Ni4yMTI5MDggMC0zNi4xODAyMTItMy45NjAwMjMtNzIuMjE4NDIzLTExLjY4MjA2OC0xMDcuMjUyNjI4IDEuOTE2MDExLTguOTk4MDUzIDMuNTAwMDIxLTE3LjkzNDEwNSA1LjAxNDAyOS0yNi41NjQxNTYgMi41ODQwMTUtMTQuNjgwMDg2IDUuMDIyMDI5LTI4LjU0ODE2NyA4LjY3NDA1MS00MC4xNzgyMzUgMC45ODgwMDYtMy4xNDIwMTggMS42OTYwMS00Ljc5MjAyOCAyLjEyMDAxMi01LjYyODAzMyAwLjQ0MDAwMy0wLjA2IDEuMDc0MDA2LTAuMTE4MDAxIDEuOTM4MDEyLTAuMTM4MDAxYTE5LjM5NjExNCAxOS4zOTYxMTQgMCAwIDAgMTguODE4MTEtMTYuOTg2MWw2LjU0NDAzOC01Mi4zNjAzMDdhMTkuMzg4MTE0IDE5LjM4ODExNCAwIDAgMC0xNS4xOTAwODktMjEuMzc0MTI1eiBtLTI4LjE1MjE2NSA1NS4zNjAzMjVjLTE1Ljk2NjA5NCA2LjgyMDA0LTIwLjc0NDEyMiAyMi4wMzgxMjktMjMuMDkwMTM1IDI5LjUwODE3Mi00LjQwNDAyNiAxNC4wNDIwODItNy4wNTgwNDEgMjkuMTE2MTcxLTkuODY0MDU4IDQ1LjA3ODI2NS0xLjI4MjAwOCA3LjI5MDA0My0yLjU1MjAxNSAxNC40NTgwODUtMy45NTAwMjMgMjEuNDI4MTI1YTE5LjMyMDExMyAxOS4zMjAxMTMgMCAwIDAtMi40OTQwMTUgMTEuNDY2MDY3Yy0xMS4xOTQwNjYgNDcuMTU2Mjc2LTMzLjIzMjE5NSA4MS45NjA0OC0xMTkuNDU0NyA3NC40NDQ0MzYtOTEuMTUwNTM0LTcuOTQ4MDQ3LTExNS4yMjA2NzUtMjkuNjc2MTc0LTE2MC45Njg5NDMtMTQ1LjMwNDg1MS0wLjQxNDAwMi0xLjA0ODAwNi0wLjgwNjAwNS0yLjE4MDAxMy0xLjIxODAwNy0zLjM2MDAyLTMuNzY0MDIyLTEwLjczODA2My0xMi40NzgwNzMtMzUuNjI0MjA5LTQ1LjUzMjI2Ny0zNS42MjQyMDgtMC42MDAwMDQgMC0xLjIxMjAwNyAwLjAwOC0xLjgyODAxIDAuMDI2LTExLjAzNDA2NSAwLjI5ODAwMi00MC4zMzYyMzYgMS4wODYwMDYtNDcuNTg2Mjc5IDQxLjQ5MDI0My02LjU0NjAzOCAzNi40NTYyMTQtNTkuNzUwMzUgMTQyLjE2MjgzMy0xNjQuNTUwOTY0IDE0Mi4xNjI4MzNoLTAuMTY4MDAxYy04OS44NTY1MjctMC4wOTgwMDEtMTI0LjkzNDczMi00Mi4wNzAyNDctMTI5LjQyNDc1OS0xNTQuODU4OTA3LTAuNjIwMDA0LTE1LjY1ODA5Mi05LjU0MDA1Ni0yNy43MjAxNjItMjMuNDY0MTM3LTMzLjE5ODE5NWwtMy4yMjAwMTktMjEuMDc0MTIzYzEyMy4yNjQ3MjItMjQuOTUwMTQ2IDIyMi4wNDEzMDEtOS41NzQwNTYgMzEwLjU5NzgyIDExLjA2MjA2NGwyLjY0MDAxNSAwLjYxNjAwNGMxNi4wNTgwOTQgMy43NTYwMjIgMzQuMjYwMjAxIDguMDEwMDQ3IDUzLjY4NDMxNSA4LjYwNDA1IDMyLjY0NDE5MSAwLjk5MDAwNiA2Ny41NzAzOTYtNi41MTQwMzggMTAwLjQ3MDU4OS0xNC43ODAwODYgMTA1LjY4MjYxOS0yNi41NDgxNTYgMTg5LjczMTExMi0xNS42MjYwOTIgMjcyLjA1OTU5NCAxLjI1MDAwN2wtMi42MzgwMTYgMjEuMDY0MTI0eiIgZmlsbD0iIiBwLWlkPSIxODE0Ij48L3BhdGg+PHBhdGggZD0iTTgwNy45NDI3MzQgNjY4LjMwNzkxNmMwLTEwLjcxMjA2My04LjY4MjA1MS0xOS4zOTgxMTQtMTkuMzk4MTE0LTE5LjM5ODExNEg0MDIuNTM0MzU5YTE5LjM5NjExNCAxOS4zOTYxMTQgMCAwIDAtMTkuMzk4MTE0IDE5LjM5ODExNGMwIDExNy4xMjA2ODYgOTUuMjgyNTU4IDIxMi40MDMyNDUgMjEyLjQwMzI0NCAyMTIuNDAzMjQ0czIxMi40MDMyNDUtOTUuMjgyNTU4IDIxMi40MDMyNDUtMjEyLjQwMzI0NHogbS0zODQuOTM0MjU1IDE5LjM5ODExNGgzNDUuMDY0MDIxYy05LjY3MjA1NyA4Ni42MzQ1MDgtODMuMzU4NDg4IDE1NC4yMTA5MDQtMTcyLjUzMTAxIDE1NC4yMTA5MDNzLTE2Mi44NjA5NTQtNjcuNTc2Mzk2LTE3Mi41MzMwMTEtMTU0LjIxMDkwM3oiIGZpbGw9IiIgcC1pZD0iMTgxNSI+PC9wYXRoPjxwYXRoIGQ9Ik04MzIuNjQ0ODc5IDE3NC4yNDEwMjFtLTE5LjM5ODExNCAwYTE5LjM5ODExNCAxOS4zOTgxMTQgMCAxIDAgMzguNzk2MjI3IDAgMTkuMzk4MTE0IDE5LjM5ODExNCAwIDEgMC0zOC43OTYyMjcgMFoiIGZpbGw9IiIgcC1pZD0iMTgxNiI+PC9wYXRoPjwvc3ZnPg==) center no-repeat;
+    content: '';
+    height: 80px;
+    position: absolute;
+    right: 0;
+    top: -80px;
+    width: 154px;
+}
+
+.comment-form-actions > button {
+    background-color: #fce87c;
+    border: 0;
+    border-radius: 10px;
+    color: #6ba2aa;
+    display: inline-block;
+    font-weight: 700;
+    line-height: 3;
+    padding: 0 40px;
+    text-transform: uppercase;
+    transition: 0.2s ease-in-out;
+}
+
+.comment-form-actions > button:active,
+.comment-form-actions > button:focus,
+.comment-form-actions > button:hover {
+    background-color: #fbe259;
+}
+
+.comment-form > label {
+    color: #6ba2aa;
+    display: block;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.comment-form-fields > input,
+.comment-form-fields > textarea {
+    border: 0;
+    border-radius: 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 100%;
+    outline: none;
+    resize: none;
+}
+
+.row {
+    background-color: #6ba2aa;
+    overflow: hidden;
+    padding-bottom: 40px;
+    padding-top: 40px;
+}
+
+.row.comments-container {
+    min-height: 300px;
+}
+
+@media screen and (max-width: 800px) {
+    .row.comments-container {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+}
+
+.comment-avatars {
+    margin-bottom: 40px;
+}
+
+.comment-avatars > h4 {
+    color: #9ecbd2;
+    text-transform: uppercase;
+}
+
+.comment-avatars > ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.comment-avatars > ul > li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: inline-block;
+}
+
+.comment-avatars > ul > li ~ li {
+    margin: 0 5px;
+}
+
+.comment-avatars img {
+    border: 2px solid #45686D;
+    border-radius: 50%;
+    height: 64px;
+    width: 64px;
+}
+body, input, textarea {
+    font-family: "PingFang SC", "Helvetica Neue", "Hiragino Sans GB", "Segoe UI", "Microsoft YaHei", "\5FAE\8F6F\96C5\9ED1", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: 14px;
+    color: #323A45;
+
+}
+
+body, ul, li, h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: #150000;
+    text-decoration: none;
+}
+
+.button {
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 18px;
+    background: #323a45;
+    color: #ffffff;;
+    border: 1px solid #323a45;
+    margin-right: 1em;
+}
+.button:hover {
+    opacity: .7;
+}
+.button[disabled] {
+    opacity: .5;
+}
+.button.confirm {
+    color: #fff;
+    background: transparent;
+    border: 1px solid #FFFFFF;
+    border-radius: 4px;
+}
+.button.confirm:hover {
+    opacity: 1;
+    background: #109CEE;
+    border: 1px solid #109CEE;
+}
+.button.green {
+    border: 1px solid #32be77;
+    background-color: #32be77;
+    color: #fff;
+}
+.button.small {
+    font-size: 16px;
+    padding: 0 18px;
+    height: 36px;
+    line-height: 36px;
+}
+.button.large {
+    padding: 0 30px;
+    height: 48px;
+    line-height: 48px;
+}
+
+.wrapper {
+    margin: auto;
+}
+
+.brand {
+    display: inline-block;
+    padding-top: 40px;
+    padding-bottom: 90px;
+    width: 1100px;
+    position: relative;
+    z-index: 2;
+}
+
+.brand .avatar img {
+    width: 42px;
+    height: 42px;
+    border-radius: 100%;
+}
+
+.start {
+    position: relative;
+    z-index: 2;
+}
+
+.block {
+    text-align: center;
+}
+
+.bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+    height: 751px;
+}
+.bg .img {
+    display: inline-block;
+    width: 1440px;
+    height: 751px;
+}
+
+@media screen and (max-width: 1024px) {
+    .block, .bg {
+        width: 1440px;
+    }
+}
+
+@keyframes bg{
+    from {
+        transform:translate3d(0, 0, 0)
+    }
+    to {
+        transform:translate3d(-600px, 0, 0)
+    }
+}
+@keyframes bg2{
+    from {
+        transform:translate3d(600px, 0, 0)
+    }
+    to {
+        transform:translate3d(1200px, 0, 0)
+    }
+}
+
+.features {
+    margin-bottom: 200px;
+}
+.features li {
+    display: inline-block;
+    list-style: none;
+    width: 300px;
+    vertical-align: top;
+}
+.features li .box {
+    padding: 40px 100px 45px 100px;
+}
+.features li .icon {
+    width: 100px;
+    height: 80px;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+.features li p.text {
+    font-size: 18px;
+    color: #ffffff;
+    margin-top: 10px;
+}
+.features li p.comment {
+    font-size: 14px;
+    color: #ffffff;
+    margin-top: 30px;
+    display: inline-block;
+    width: 280px;
+    text-align: left;
+}
+
+.notes {
+    display: inline-block;
+}
+.notes-top-bar {
+    height: 8px;
+}
+.notes-top-bar hr {
+    margin: 0;
+    padding: 0;
+    width: 400px;
+    height: 7px;
+    border: none;
+    display: inline-block;
+}
+.notes .note {
+    text-align: left;
+    margin-bottom: 50px;
+}
+.notes .note img {
+    display: inline-block;
+    vertical-align: top;
+    width: 24px;
+    height: 24px;
+}
+.notes .note .content {
+    text-align: left;
+    margin-left: 54px;
+    margin-top: -28px;
+}
+.notes .note p {
+    font-size: 14px;
+    color: #425063;
+}
+.notes .note h3 {
+    font-size: 20px;
+    font-weight: normal;
+    color: #323A45;
+    margin-bottom: 10px;
+}
+
+.modal-container, .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.modal-backdrop {
+    background: #000;
+    opacity: .5;
+    z-index: 1050;
+}
+.modal-container {
+    overflow: auto;
+    z-index: 1050;
+}
+.modal-container .modal {
+    position: relative;
+    width: 500px;
+    padding: 30px;
+    margin: 60px auto;
+    border-radius: 4px;
+    background: #ffffff;
+}
+.modal-container .modal .modal-header {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.modal-container .modal .modal-body {
+    padding: 0 15px;
+    overflow: hidden;
+}
+.modal-container .modal .modal-close {
+    position: absolute;
+    top: -26px;
+    right: -26px;
+    font-size: 16px;
+    color: #ffffff;
+}
+.modal-container .modal .modal-close:hover {
+    opacity: .5;
+    cursor: pointer;
+}
+
+.form-input {
+    margin: 26px 0;
+}
+.form-input label.title {
+    display: inline-block;
+    color: #323A45;
+    font-size: 14px;
+    width: 100px;
+}
+.form-input input[type=text],.form-input input[type=password] {
+    width: 326px;
+    height: 42px;
+    padding: 0 10px;
+    color: #323a45;
+    border: 1px solid #D8DDE4;
+    border-radius: 4px;
+    outline: 1px #5097e8;
+}
+.form-input input[type=text]:focus {
+    border: 1px solid #5097e8;
+}
+.form-input input[type=radio] {
+    font-size: 12px;
+    color: #76808E;
+    display: none;
+}
+.form-input label.radio {
+    margin-right: 10px;
+}
+.form-input label.radio span {
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 4px 10px;
+    height: 24px;
+    line-height: 22px;
+    background-color: #F2F4F7;
+    color: #76808E;
+}
+.form-input label.radio input:checked + span {
+    color: #ffffff;
+    background-color: #5BA8FF;
+}
+
+#modal-save pre {
+    position: relative;
+}
+#modal-save pre:hover .copy {
+    display: inline-block;
+}
+
+#modal-save pre .copy {
+    display: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 4px 8px;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 10px;
+    color: #333;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid #d5d5d5;
+    border-radius: 4px;
+    background-image: linear-gradient(#fcfcfc,#eee);
+}
+
+#modal-save pre .copy:hover {
+    background: #ddd linear-gradient(#eee, #ddd);
+    border-color:#ccc;
+}
+
+.alert {
+    /*display: none;*/
+    position: fixed;
+    top: 0;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 1051;
+    min-width: 400px;
+    padding: 10px 15px;
+    border-radius: 4px;
+    color: #999245;
+    background: #faf7d4;
+}
+
+.alert svg.success {
+    display: none;
+}
+
+.alert.success {
+    color: #458a45;
+    background: #defad4;
+}
+
+.alert.success svg.success {
+    display: inline;
+}
+
+.alert.success svg.warn {
+    display: none;
+}
+
+.table-list {
+    margin: 0 auto;
+    color: #fff;
+    width: 50%;
+}
+.table-list th{
+    font-size: 1.5em;
+}
+.table-list td,
+.table-list th{
+    padding:0.5em; border:1px solid #fcfcfc;
+}
+/*# sourceMappingURL=main.min.css.map*/

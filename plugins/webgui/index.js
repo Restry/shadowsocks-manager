@@ -13,7 +13,7 @@ const knex = appRequire('init/knex').knex;
 const KnexSessionStore = require('connect-session-knex')(session);
 const store = new KnexSessionStore({ knex });
 const sessionParser = session({
-  secret: '5E14cd8749A',
+  secret: '5E14cd874887A',
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false, httpOnly: true, maxAge: 5 * 24 * 60 * 60 * 1000 },
@@ -40,14 +40,17 @@ app.engine('.html', require('ejs').__express);
 app.set('view engine', 'html');
 app.set('views', path.resolve('./plugins/webgui/views'));
 
+
+app.use('/', express.static(path.resolve('./plugins/webgui/frontend')));
+
 app.use('/libs', express.static(path.resolve('./plugins/webgui/libs')));
 app.use('/public', express.static(path.resolve('./plugins/webgui/public')));
 
 const port = config.plugins.webgui.port || 8080;
 const host = config.plugins.webgui.host || '0.0.0.0';
 app.listen(port, host, () => {
-  logger.info(`server start at ${ host }:${ port }`);
-}).on('error', err => {
+  logger.info(`server start at ${host}:${port}`);
+}).on('error', err => { 
   logger.error('express server error: ' + err);
   process.exit(1);
 });
