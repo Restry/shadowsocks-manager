@@ -350,3 +350,6 @@ a {
 .alert.success svg.warn {
     display: none;
 }
+
+.layout-cloumn{display:flow-root}
+._md-toolbar-transitions{display: none;}
