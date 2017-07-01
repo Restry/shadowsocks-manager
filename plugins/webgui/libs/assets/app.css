@@ -351,5 +351,5 @@ a {
     display: none;
 }
 
-.layout-column{display:flow-root}
+.layout-column{display:block}
 ._md-toolbar-transitions{display: none;}
