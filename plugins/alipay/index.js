@@ -26,7 +26,7 @@ const createOrder = async (user, account, amount, orderType = 3) => {
   }).then(success => {
     return success[0];
   });
-  if(oldOrder) {
+  if (oldOrder) {
     return {
       orderId: oldOrder.orderId,
       qrCode: oldOrder.qrcode,
@@ -52,7 +52,7 @@ const createOrder = async (user, account, amount, orderType = 3) => {
     createTime: Date.now(),
     expireTime: Date.now() + time * 60 * 1000,
   });
-  logger.info(`创建订单: [${ orderId }][${ amount }][account: ${ account }]`);
+  logger.info(`创建订单: [${orderId}][${amount}][account: ${account}]`);
   return {
     orderId,
     qrCode: qrCode.qr_code,
@@ -60,37 +60,44 @@ const createOrder = async (user, account, amount, orderType = 3) => {
 };
 
 cron.minute(async () => {
-// setInterval(async () => {
+  // setInterval(async () => {
   const orders = await knex('alipay').select().whereNotBetween('expireTime', [0, Date.now()]);
   orders.forEach(order => {
-    if(order.status !== 'TRADE_SUCCESS' && order.status !== 'FINISH') {
+    if (order.status !== 'TRADE_SUCCESS' && order.status !== 'FINISH') {
       alipay_f2f.checkInvoiceStatus(order.orderId).then(success => {
-        if(success.code === '10000') {
+        if (success.code === '10000') {
           knex('alipay').update({
             status: success.trade_status
           }).where({
             orderId: order.orderId,
           }).then();
+
         }
       });
-    } else if(order.status === 'TRADE_SUCCESS') {
+    } else if (order.status === 'TRADE_SUCCESS') {
       const accountId = order.account;
       const userId = order.user;
       push.pushMessage('支付成功', {
-        body: `订单[ ${ order.orderId } ][ ${ order.amount } ]支付成功`,
+        body: `订单[ ${order.orderId} ][ ${order.amount} ]支付成功`,
       });
       account.setAccountLimit(userId, accountId, order.orderType)
-      .then(() => {
-        return knex('alipay').update({
-          status: 'FINISH',
-        }).where({
-          orderId: order.orderId,
+        .then(() => {
+          knex('user').update({
+            paid: order.amount,
+          }).where({
+            id: userId,
+          });
+
+          return knex('alipay').update({
+            status: 'FINISH',
+          }).where({
+            orderId: order.orderId,
+          });
+        }).then(() => {
+          logger.info(`订单支付成功: [${order.orderId}][${order.amount}][account: ${accountId}]`);
+        }).catch(err => {
+          logger.error(`订单支付失败: [${order.orderId}]`, err);
         });
-      }).then(() => {
-        logger.info(`订单支付成功: [${ order.orderId }][${ order.amount }][account: ${ accountId }]`);
-      }).catch(err => {
-        logger.error(`订单支付失败: [${ order.orderId }]`, err);
-      });
     };
   });
 }, 1);
@@ -100,7 +107,7 @@ const checkOrder = async (orderId) => {
   const order = await knex('alipay').select().where({
     orderId,
   }).then(success => {
-    if(success.length) {
+    if (success.length) {
       return success[0];
     }
     return Promise.reject('order not found');
@@ -110,7 +117,7 @@ const checkOrder = async (orderId) => {
 
 const verifyCallback = (data) => {
   const signStatus = alipay_f2f.verifyCallback(data);
-  if(signStatus) {
+  if (signStatus) {
     knex('alipay').update({
       status: data.trade_status,
       alipayData: JSON.stringify(data),
@@ -125,7 +132,7 @@ const verifyCallback = (data) => {
 
 const orderList = async (options = {}) => {
   const where = {};
-  if(options.userId) {
+  if (options.userId) {
     where['user.id'] = options.userId;
   }
   const orders = await knex('alipay').select([
@@ -140,10 +147,10 @@ const orderList = async (options = {}) => {
     'alipay.createTime',
     'alipay.expireTime',
   ])
-  .leftJoin('user', 'user.id', 'alipay.user')
-  .leftJoin('account_plugin', 'account_plugin.id', 'alipay.account')
-  .where(where)
-  .orderBy('alipay.createTime', 'DESC');
+    .leftJoin('user', 'user.id', 'alipay.user')
+    .leftJoin('account_plugin', 'account_plugin.id', 'alipay.account')
+    .where(where)
+    .orderBy('alipay.createTime', 'DESC');
   orders.forEach(f => {
     f.alipayData = JSON.parse(f.alipayData);
   });
@@ -170,16 +177,16 @@ const orderListAndPaging = async (options = {}) => {
     'alipay.createTime',
     'alipay.expireTime',
   ])
-  .leftJoin('user', 'user.id', 'alipay.user')
-  .leftJoin('account_plugin', 'account_plugin.id', 'alipay.account');
+    .leftJoin('user', 'user.id', 'alipay.user')
+    .leftJoin('account_plugin', 'account_plugin.id', 'alipay.account');
 
-  if(filter.length) {
+  if (filter.length) {
     count = count.whereIn('alipay.status', filter);
     orders = orders.whereIn('alipay.status', filter);
   }
-  if(search) {
-    count = count.where('alipay.orderId', 'like', `%${ search }%`);
-    orders = orders.where('alipay.orderId', 'like', `%${ search }%`);
+  if (search) {
+    count = count.where('alipay.orderId', 'like', `%${search}%`);
+    orders = orders.where('alipay.orderId', 'like', `%${search}%`);
   }
 
   count = await count.count('orderId as count').then(success => success[0].count);

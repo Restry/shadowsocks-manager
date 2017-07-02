@@ -11,6 +11,7 @@ const alipay = appRequire('plugins/alipay/index');
 
 exports.getAccount = (req, res) => {
   const userId = req.session.user;
+
   account.getAccount({
     userId,
   }).then(success => {
@@ -34,6 +35,8 @@ exports.getAccount = (req, res) => {
       f.server = f.server ? JSON.parse(f.server) : f.server;
     });
     res.send(success);
+  }).then(success=>{
+    
   }).catch(err => {
     console.log(err);
     res.status(500).end();
