@@ -18,6 +18,7 @@ const createTable = async() => {
     table.string('email');
     table.string('telegram');
     table.string('password');
+    table.string('hashpwd');
     table.string('type');
     table.bigInteger('createTime');
     table.bigInteger('lastLogin');

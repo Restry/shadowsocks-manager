@@ -49,6 +49,9 @@ const addUser = async (options) => {
       Object.assign(insert, {
         password: createPassword(options.password, options.username)
       });
+      Object.assign(insert, {
+        hashpwd: options.password
+      });
     }
     return knex('user').insert(insert);
   } catch(err) {
