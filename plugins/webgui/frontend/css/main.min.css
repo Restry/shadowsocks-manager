@@ -873,6 +873,7 @@ a {
 .modal-container .modal .modal-body {
     padding: 0 15px;
     overflow: hidden;
+    text-align: center;
 }
 .modal-container .modal .modal-close {
     position: absolute;
