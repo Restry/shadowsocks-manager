@@ -1,16 +1,16 @@
-'use strict';
-
 const app = appRequire('plugins/webgui/index').app;
 // const wss = appRequire('plugins/webgui/index').wss;
 const sessionParser = appRequire('plugins/webgui/index').sessionParser;
 const home = appRequire('plugins/webgui/server/home');
 const user = appRequire('plugins/webgui/server/user');
 const admin = appRequire('plugins/webgui/server/admin');
+const adminServer = appRequire('plugins/webgui/server/adminServer');
 const adminSetting = appRequire('plugins/webgui/server/adminSetting');
 const adminNotice = appRequire('plugins/webgui/server/adminNotice');
 const push = appRequire('plugins/webgui/server/push');
 const path = require('path');
 const knex = appRequire('init/knex').knex;
+const config = appRequire('services/config').all();
 
 const isUser = (req, res, next) => {
   if(req.session.type === 'normal') {
@@ -39,15 +39,18 @@ app.post('/api/home/password/sendEmail', home.sendResetPasswordEmail);
 app.get('/api/home/password/reset', home.checkResetPasswordToken);
 app.post('/api/home/password/reset', home.resetPassword);
 
-app.get('/api/admin/server', isAdmin, admin.getServers);
-app.get('/api/admin/server/:serverId(\\d+)', isAdmin, admin.getOneServer);
-app.post('/api/admin/server', isAdmin, admin.addServer);
-app.put('/api/admin/server/:serverId(\\d+)', isAdmin, admin.editServer);
-app.delete('/api/admin/server/:serverId(\\d+)', isAdmin, admin.deleteServer);
+app.get('/api/admin/server', isAdmin, adminServer.getServers);
+app.get('/api/admin/server/:serverId(\\d+)', isAdmin, adminServer.getOneServer);
+app.post('/api/admin/server', isAdmin, adminServer.addServer);
+app.put('/api/admin/server/:serverId(\\d+)', isAdmin, adminServer.editServer);
+app.delete('/api/admin/server/:serverId(\\d+)', isAdmin, adminServer.deleteServer);
 
 app.get('/api/admin/account', isAdmin, admin.getAccount);
 app.get('/api/admin/account/port/:port(\\d+)', isAdmin, admin.getAccountByPort);
 app.get('/api/admin/account/:accountId(\\d+)', isAdmin, admin.getOneAccount);
+app.get('/api/admin/account/:serverId(\\d+)/:accountId(\\d+)/ip', isAdmin, admin.getAccountIp);
+app.get('/api/admin/account/ip/:ip', isAdmin, admin.getAccountIpInfo);
+app.get('/api/admin/account/:accountId(\\d+)/ip', isAdmin, admin.getAccountIpFromAllServer);
 app.post('/api/admin/account', isAdmin, admin.addAccount);
 app.put('/api/admin/account/:accountId(\\d+)/port', isAdmin, admin.changeAccountPort);
 app.put('/api/admin/account/:accountId(\\d+)/data', isAdmin, admin.changeAccountData);
@@ -61,11 +64,15 @@ app.get('/api/admin/flow/:serverId(\\d+)/:port(\\d+)', isAdmin, admin.getServerP
 app.get('/api/admin/flow/:serverId(\\d+)/:port(\\d+)/lastConnect', isAdmin, admin.getServerPortLastConnect);
 
 app.get('/api/admin/user', isAdmin, admin.getUsers);
+app.post('/api/admin/user/add', isAdmin, admin.addUser);
 app.get('/api/admin/user/recentSignUp', isAdmin, admin.getRecentSignUpUsers);
 app.get('/api/admin/user/recentLogin', isAdmin, admin.getRecentLoginUsers);
+app.get('/api/admin/order/recentOrder', isAdmin, admin.getRecentOrders);
 app.get('/api/admin/user/account', isAdmin, admin.getUserAccount);
 app.get('/api/admin/user/:userId(\\d+)', isAdmin, admin.getOneUser);
+app.post('/api/admin/user/:userId(\\d+)/sendEmail', isAdmin, admin.sendUserEmail);
 app.put('/api/admin/user/:userId(\\d+)/:accountId(\\d+)', isAdmin, admin.setUserAccount);
+app.delete('/api/admin/user/:userId(\\d+)', isAdmin, admin.deleteUser);
 app.delete('/api/admin/user/:userId(\\d+)/:accountId(\\d+)', isAdmin, admin.deleteUserAccount);
 app.get('/api/admin/user/:port(\\d+)/lastConnect', isAdmin, admin.getUserPortLastConnect);
 
@@ -98,7 +105,9 @@ app.post('/api/user/order/status', isUser, user.checkOrder);
 
 app.post('/api/user/alipay/callback', user.alipayCallback);
 
-app.post('/api/push/client', push.client);
+if(config.plugins.webgui.gcmAPIKey && config.plugins.webgui.gcmSenderId) {
+  app.post('/api/push/client', push.client);
+}
 
 app.get('/serviceworker.js', (req, res) => {
   res.header('Content-Type', 'text/javascript');

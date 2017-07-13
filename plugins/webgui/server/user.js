@@ -1,5 +1,3 @@
-'use strict';
-
 const user = appRequire('plugins/user/index');
 const account = appRequire('plugins/account/index');
 const flow = appRequire('plugins/flowSaver/flow');
@@ -228,7 +226,7 @@ exports.getNotice = (req, res) => {
 
 exports.getAlipayStatus = (req, res) => {
   return res.send({
-    status: config.plugins.alipay.use,
+    status: config.plugins.alipay && config.plugins.alipay.use,
   });
 };
 

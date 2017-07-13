@@ -93,17 +93,21 @@ app.controller('AdminAccountController', ['$scope', '$state', '$stateParams', '$
         return {
           background: 'red-50', 'border-color': 'red-300',
         };
+      } else if(account.autoRemove) {
+        return {
+          background: 'lime-50', 'border-color': 'lime-300',
+        };
       }
       return {};
     };
   }
 ])
-.controller('AdminAccountPageController', ['$scope', '$state', '$stateParams', '$http', '$mdMedia', '$q', 'adminApi', '$timeout', '$interval',
-  ($scope, $state, $stateParams, $http, $mdMedia, $q, adminApi, $timeout, $interval) => {
+.controller('AdminAccountPageController', ['$scope', '$state', '$stateParams', '$http', '$mdMedia', '$q', 'adminApi', '$timeout', '$interval', 'qrcodeDialog', 'ipDialog',
+  ($scope, $state, $stateParams, $http, $mdMedia, $q, adminApi, $timeout, $interval, qrcodeDialog, ipDialog) => {
     $scope.setTitle('账号');
     $scope.setMenuButton('arrow_back', 'admin.account');
     $q.all([
-      $http.get('/api/admin/account/' + $stateParams.accountId),
+      $http.get(`/api/admin/account/${ $stateParams.accountId }`),
       $http.get('/api/admin/server'),
       $http.get('/api/admin/setting'),
     ]).then(success => {
@@ -114,23 +118,28 @@ app.controller('AdminAccountController', ['$scope', '$state', '$stateParams', '$
         }
         return server;
       });
-      $scope.getServerPortData($scope.servers[0].id, $scope.account.port);
+      $scope.getServerPortData($scope.servers[0], $scope.account.port);
       $scope.isMultiServerFlow = success[2].data.value.multiServerFlow;
+    }).catch(err => {
+      $state.go('admin.account');
     });
     let currentServerId;
-    $scope.getServerPortData = (serverId, port) => {
+    $scope.getServerPortData = (server, port) => {
+      const serverId = server.id;
       currentServerId = serverId;
       $scope.serverPortFlow = 0;
       $scope.lastConnect = 0;
       adminApi.getServerPortData(serverId, port).then(success => {
         $scope.serverPortFlow = success.serverPortFlow;
         $scope.lastConnect = success.lastConnect;
+        const maxFlow = $scope.account.data.flow * ($scope.isMultiServerFlow ? 1 : server.scale);
+        server.isFlowOutOfLimit = $scope.serverPortFlow >= maxFlow;
       });
       $scope.getChartData(serverId);
       $scope.servers.forEach((server, index) => {
         if(server.id === serverId) { return; }
         $timeout(() => {
-          adminApi.getServerPortData(server.id, port);
+          adminApi.getServerPortData(serverId, port);
         }, index * 1000);
       });
     };
@@ -148,12 +157,11 @@ app.controller('AdminAccountController', ['$scope', '$state', '$stateParams', '$
       }));
     };
     $scope.createQrCode = (method, password, host, port, serverName) => {
-      const checkAscii = str => {
-        return str.split('').filter(f => {
-          return f.charCodeAt() >= 31 && f.charCodeAt() <= 127 ;
-        }).join('');
-      };
-      return 'ss://' + base64Encode(method + ':' + password + '@' + host + ':' + port) + '#' + checkAscii(serverName);
+      return 'ss://' + base64Encode(method + ':' + password + '@' + host + ':' + port);
+    };
+    $scope.showQrcodeDialog = (method, password, host, port, serverName) => {
+      const ssAddress = $scope.createQrCode(method, password, host, port, serverName);
+      qrcodeDialog.show(serverName, ssAddress);
     };
     $scope.editAccount = id => {
       $state.go('admin.editAccount', { accountId: id });
@@ -313,6 +321,9 @@ app.controller('AdminAccountController', ['$scope', '$state', '$stateParams', '$
       if(!userId) { return; }
       $state.go('admin.userPage', { userId });
     };
+    $scope.clientIp = (serverId, accountId) => {
+      ipDialog.show(serverId, accountId);
+    };
   }
 ])
 .controller('AdminAddAccountController', ['$scope', '$state', '$stateParams', '$http', '$mdBottomSheet', 'alertDialog',
@@ -465,6 +476,9 @@ app.controller('AdminAccountController', ['$scope', '$state', '$stateParams', '$
     };
     $scope.setStartTime = (number) => {
       $scope.account.time += number;
+    };
+    $scope.setStartTimeToCurrentTime = () => {
+      $scope.account.time = Date.now();
     };
     $scope.setLimit = (number) => {
       $scope.account.limit += number;

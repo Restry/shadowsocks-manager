@@ -1,5 +1,11 @@
 const app = angular.module('app');
 
+// app.config(['$mdThemingProvider', $mdThemingProvider => {
+//   $mdThemingProvider.theme('default')
+//     .primaryPalette('pink')
+//     .accentPalette('orange');
+// }]);
+
 app.config(['$stateProvider', $stateProvider => {
   $stateProvider
     .state('admin', {
@@ -36,6 +42,11 @@ app.config(['$stateProvider', $stateProvider => {
       url: '/user',
       controller: 'AdminUserController',
       templateUrl: '/public/views/admin/user.html',
+    })
+    .state('admin.addUser', {
+      url: '/addUser',
+      controller: 'AdminAddUserController',
+      templateUrl: '/public/views/admin/addUser.html',
     })
     .state('admin.account', {
       url: '/account',

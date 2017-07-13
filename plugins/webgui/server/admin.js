@@ -6,127 +6,9 @@ const user = appRequire('plugins/user/index');
 const knex = appRequire('init/knex').knex;
 const moment = require('moment');
 const alipay = appRequire('plugins/alipay/index');
-
-exports.getServers = (req, res) => {
-  serverManager.list().then(success => {
-    res.send(success);
-  }).catch(err => {
-    console.log(err);
-    res.status(500).end();
-  });
-};
-
-exports.getOneServer = (req, res) => {
-  const serverId = req.params.serverId;
-  let result = null;
-  knex('server').select().where({
-    id: +serverId,
-  }).then(success => {
-    if(success.length) {
-      result = success[0];
-      return manager.send({
-        command: 'list',
-      }, {
-        host: success[0].host,
-        port: success[0].port,
-        password: success[0].password,
-      });
-    }
-    res.status(404).end();
-  }).then(success => {
-    result.ports = success;
-    res.send(result);
-  }).catch(err => {
-    console.log(err);
-    res.status(500).end();
-  });
-};
-
-exports.addServer = (req, res) => {
-  req.checkBody('name', 'Invalid name').notEmpty();
-  req.checkBody('address', 'Invalid address').notEmpty();
-  req.checkBody('port', 'Invalid port').isInt({min: 1, max: 65535});
-  req.checkBody('password', 'Invalid password').notEmpty();
-  req.checkBody('method', 'Invalid method').notEmpty();
-  req.getValidationResult().then(result => {
-    if(result.isEmpty()) {
-      const address = req.body.address;
-      const port = +req.body.port;
-      const password = req.body.password;
-      return manager.send({
-        command: 'flow',
-        options: { clear: false, },
-      }, {
-        host: address,
-        port,
-        password,
-      });
-    }
-    result.throw();
-  }).then(success => {
-    const name = req.body.name;
-    const address = req.body.address;
-    const port = +req.body.port;
-    const password = req.body.password;
-    const method = req.body.method;
-    return serverManager.add(name, address, port, password, method);
-  }).then(success => {
-    res.send('success');
-  }).catch(err => {
-    console.log(err);
-    res.status(403).end();
-  });
-};
-
-exports.editServer = (req, res) => {
-  req.checkBody('name', 'Invalid name').notEmpty();
-  req.checkBody('address', 'Invalid address').notEmpty();
-  req.checkBody('port', 'Invalid port').isInt({min: 1, max: 65535});
-  req.checkBody('password', 'Invalid password').notEmpty();
-  req.checkBody('method', 'Invalid method').notEmpty();
-  req.checkBody('scale', 'Invalid scale').notEmpty();
-  req.getValidationResult().then(result => {
-    if(result.isEmpty()) {
-      const address = req.body.address;
-      const port = +req.body.port;
-      const password = req.body.password;
-      return manager.send({
-        command: 'flow',
-        options: { clear: false, },
-      }, {
-        host: address,
-        port,
-        password,
-      });
-    }
-    result.throw();
-  }).then(success => {
-    const serverId = req.params.serverId;
-    const name = req.body.name;
-    const address = req.body.address;
-    const port = +req.body.port;
-    const password = req.body.password;
-    const method = req.body.method;
-    const scale = req.body.scale;
-    return serverManager.edit(serverId, name, address, port, password, method, scale);
-  }).then(success => {
-    res.send('success');
-  }).catch(err => {
-    console.log(err);
-    res.status(403).end();
-  });
-};
-
-exports.deleteServer = (req, res) => {
-  const serverId = req.params.serverId;
-  serverManager.del(serverId)
-  .then(success => {
-    res.send('success');
-  }).catch(err => {
-    console.log(err);
-    res.status(403).end();
-  });
-};
+const email = appRequire('plugins/email/index');
+const config = appRequire('services/config').all();
+const isAlipayUse = config.plugins.alipay && config.plugins.alipay.use;
 
 exports.getAccount = (req, res) => {
   account.getAccount().then(success => {
@@ -174,11 +56,9 @@ exports.getAccountByPort = (req, res) => {
 };
 
 exports.getOneAccount = (req, res) => {
-  const accountId = req.params.accountId;
-  account.getAccount().then(success => {
-    const accountInfo = success.filter(f => {
-      return f.id === +accountId;
-    })[0];
+  const accountId = +req.params.accountId;
+  account.getAccount({ id: accountId }).then(success => {
+    const accountInfo = success[0];
     if(accountInfo) {
       accountInfo.data = JSON.parse(accountInfo.data);
       if(accountInfo.type >= 2 && accountInfo.type <= 5) {
@@ -199,7 +79,7 @@ exports.getOneAccount = (req, res) => {
       accountInfo.server = accountInfo.server ? JSON.parse(accountInfo.server) : accountInfo.server;
       return res.send(accountInfo);
     }
-    Promise.reject('account not found');
+    return res.status(403).end();
   }).catch(err => {
     console.log(err);
     res.status(403).end();
@@ -486,6 +366,20 @@ exports.getRecentLoginUsers = (req, res) => {
   });
 };
 
+exports.getRecentOrders = (req, res) => {
+  if(!isAlipayUse) {
+    return res.send([]);
+  }
+  alipay.orderListAndPaging({
+    pageSize: 5,
+  }).then(success => {
+    return res.send(success.orders);
+  }).catch(err => {
+    console.log(err);
+    res.status(403).end();
+  });
+};
+
 exports.getOneUser = (req, res) => {
   const userId = req.params.userId;
   let userInfo = null;
@@ -497,6 +391,16 @@ exports.getOneUser = (req, res) => {
       return f.userId === +userId;
     });
     return res.send(userInfo);
+  }).catch(err => {
+    console.log(err);
+    res.status(403).end();
+  });
+};
+
+exports.deleteUser = (req, res) => {
+  const userId = req.params.userId;
+  user.delete(userId).then(success => {
+    return res.send('success');
   }).catch(err => {
     console.log(err);
     res.status(403).end();
@@ -550,6 +454,9 @@ exports.getServerPortLastConnect = (req, res) => {
 };
 
 exports.getUserOrders = (req, res) => {
+  if(!isAlipayUse) {
+    return res.send([]);
+  }
   const options = {
     userId: +req.params.userId,
   };
@@ -563,6 +470,15 @@ exports.getUserOrders = (req, res) => {
 };
 
 exports.getOrders = (req, res) => {
+  if(!isAlipayUse) {
+    return res.send({
+      maxPage: 0,
+      page: 1,
+      pageSize: 0,
+      total: 0,
+      orders: [],
+    });
+  }
   const options = {};
   options.page = +req.query.page || 1;
   options.pageSize = +req.query.pageSize || 20;
@@ -582,6 +498,141 @@ exports.getUserPortLastConnect = (req, res) => {
   const port = +req.params.port;
   flow.getUserPortLastConnect(port).then(success => {
     return res.send(success);
+  }).catch(err => {
+    console.log(err);
+    res.status(403).end();
+  });
+};
+
+exports.addUser = (req, res) => {
+  req.checkBody('email', 'Invalid email').notEmpty();
+  req.checkBody('password', 'Invalid password').notEmpty();
+  req.getValidationResult().then(result => {
+    if(result.isEmpty()) {
+      const email = req.body.email;
+      const password = req.body.password;
+      return user.add({
+        username: email,
+        email,
+        password,
+        type: 'normal',
+      });
+    }
+    result.throw();
+  }).then(success => {
+    return res.send(success);
+  }).catch(err => {
+    console.log(err);
+    res.status(403).end();
+  });
+};
+
+exports.sendUserEmail = (req, res) => {
+  const userId = +req.params.userId;
+  const title = req.body.title;
+  const content = req.body.content;
+  req.checkBody('title', 'Invalid title').notEmpty();
+  req.checkBody('content', 'Invalid content').notEmpty();
+  req.getValidationResult().then(result => {
+    if(result.isEmpty()) {
+      return user.getOne(userId).then(user => user.email);
+    }
+    result.throw();
+  }).then(emailAddress => {
+    return email.sendMail(emailAddress, title, content, {
+      type: 'user',
+    });
+  }).then(success => {
+    return res.send(success);
+  }).catch(err => {
+    console.log(err);
+    res.status(403).end();
+  });
+};
+
+exports.getAccountIp = (req, res) => {
+  const accountId = +req.params.accountId;
+  const serverId = +req.params.serverId;
+  let serverInfo;
+  knex('server').select().where({
+    id: serverId,
+  }).then(success => {
+    if(success.length) {
+      serverInfo = success[0];
+    } else {
+      return Promise.reject('server not found');
+    }
+    return account.getAccount({ id: accountId }).then(success => success[0]);
+  }).then(accountInfo => {
+    const port = accountInfo.port;
+    return manager.send({
+      command: 'ip',
+      port,
+    }, {
+      host: serverInfo.host,
+      port: serverInfo.port,
+      password: serverInfo.password,
+    });
+  }).then(ip => {
+    return res.send({ ip });
+  }).catch(err => {
+    console.log(err);
+    res.status(403).end();
+  });
+};
+
+exports.getAccountIpFromAllServer = (req, res) => {
+  const accountId = +req.params.accountId;
+  let accountInfo;
+  account.getAccount({ id: accountId }).then(success => {
+    accountInfo = success[0];
+    return knex('server').select().where({});
+  }).then(servers => {
+    const getIp = (port, serverInfo) => {
+      return manager.send({
+        command: 'ip',
+        port,
+      }, {
+        host: serverInfo.host,
+        port: serverInfo.port,
+        password: serverInfo.password,
+      });
+    };
+    promiseArray = servers.map(server => {
+      return getIp(accountInfo.port, server).catch(err => []);
+    });
+    return Promise.all(promiseArray);
+  }).then(ips => {
+    const result = [];
+    ips.forEach(ip => {
+      ip.forEach(i => {
+        if(result.indexOf(i) < 0) { result.push(i); }
+      });
+    });
+    return res.send({ ip: result });
+  }).catch(err => {
+    console.log(err);
+    res.status(403).end();
+  });
+};
+
+exports.getAccountIpInfo = (req, res) => {
+  const ip = req.params.ip;
+  const rp = require('request-promise');
+  const uri = `http://ip.taobao.com/service/getIpInfo.php?ip=${ ip }`;
+  rp({
+    uri,
+  }).then(success => {
+    const decode = (s) => {
+      return unescape(s.replace(/\\u/g, '%u'));
+    };
+    return JSON.parse(decode(success));
+  }).then(success => {
+    if(success.code !== 0) {
+      return Promise.reject(success.code);
+    }
+    const result = [success.data.city, success.data.isp];
+    return res.send(result);
   }).catch(err => {
     console.log(err);
     res.status(403).end();
